@@ -1,0 +1,57 @@
+/**
+ * My Coffee shop network
+ */
+namespace org.acme.mynetwork
+asset Coffee identified by coffeeName {
+    o String coffeeName
+    o Double price
+    o Double quantity
+    --> Seller seller
+}
+
+enum OrderState {
+  o ORDER
+  o DELIVERED
+}
+
+asset CoffeeOrderlist identified by listingId {
+  o String listingId
+  o OrderState state
+  o Order[] orders optional
+  --> Coffee coffee
+}
+
+abstract participant User identified by email {
+  o String email
+  o String firstName
+  o String lastName
+}
+
+participant Customer extends User {
+  o Double balance
+}
+
+participant Seller extends User {
+  o Double balance
+}
+
+transaction Order {
+  o Double quantity
+  --> CoffeeOrderlist coffeeOrderlist
+  --> Customer customer
+}
+
+transaction Delivery {
+  --> CoffeeOrderlist coffeeOrderlist
+}
+
+transaction removeDeliveredCoffeeOrderList {
+}
+
+event OrderNotification {
+    --> CoffeeOrderlist coffeeOrderlist
+}
+
+event RemoveOrderNotification {
+    --> CoffeeOrderlist coffeeOrderlist
+}
