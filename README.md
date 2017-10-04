@@ -11,10 +11,10 @@ This business network defines:
 `Coffee` `CoffeeOrderlist`
 
 **Transaction**
-`Order` `Delivery`
+`Order` `Delivery` `removeDeliveredCoffeeOrderList`
 
 **Event**
-`OrderNotification`
+`OrderNotification` `RemoveOrderNotification`
 
 Coffee are owned by a Seller, and the value property on a CoffeeOrderlist can be modified by submitting a Order and Delivery Transaction. The Order and Delivery Transaction emits a OrderNotificationEvent that notifies applications of the old and new values for each modified CoffeeOrderlist Asset.
 
@@ -83,9 +83,17 @@ Submit a `Delivery` transaction:
   "coffeeOrderlist": "resource:org.acme.mynetwork.CoffeeOrderlist#listingId:0001"
 }
 ```
+Submit a `removeDeliveredCoffeeOrderList` transaction:
 
+```
+{
+  "$class": "org.acme.mynetwork.removeDeliveredCoffeeOrderList"
+}
+```
 
 After submitting this transaction, you should now see the transaction in the Transaction Registry and that a `OrderNotification` has been emitted. As a result, the value of the `listingId:0001` should now be `new value` in the Asset Registry.
+
+`RemoveOrderNotification` use to delete `CoffeeOrderlist` state status is DELIVERED.
 
 Congratulations!
 # coffee-shop
