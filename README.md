@@ -16,6 +16,9 @@ This business network defines:
 **Event**
 `OrderNotification` `RemoveOrderNotification`
 
+**Enum**
+`OrderState`
+
 Coffee are owned by a Seller, and the value property on a CoffeeOrderlist can be modified by submitting a Order and Delivery Transaction. The Order and Delivery Transaction emits a OrderNotificationEvent that notifies applications of the old and new values for each modified CoffeeOrderlist Asset.
 
 To test this Business Network Definition in the **Test** tab:
@@ -93,9 +96,11 @@ Submit a `removeDeliveredCoffeeOrderList` transaction:
 
 After submitting this transaction, you should now see the transaction in the Transaction Registry and that a `OrderNotification` has been emitted. As a result, the value of the `listingId:0001` should now be `new value` in the Asset Registry.
 
-`removeDeliveredCoffeeOrderList` use to delete `CoffeeOrderlist` state status is `DELIVERED`.
+`removeDeliveredCoffeeOrderList` use to delete `CoffeeOrderlist` state status is DELIVERED.
 
 `RemoveOrderNotification` has been emit when summit transaction `removeDeliveredCoffeeOrderList`.
+
+Enum `OrderState` -> ORDER, DELIVERED
 
 Congratulations!
 # coffee-shop
