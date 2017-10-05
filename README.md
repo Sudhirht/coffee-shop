@@ -93,7 +93,9 @@ Submit a `removeDeliveredCoffeeOrderList` transaction:
 
 After submitting this transaction, you should now see the transaction in the Transaction Registry and that a `OrderNotification` has been emitted. As a result, the value of the `listingId:0001` should now be `new value` in the Asset Registry.
 
-`RemoveOrderNotification` use to delete `CoffeeOrderlist` state status is DELIVERED.
+`removeDeliveredCoffeeOrderList` use to delete `CoffeeOrderlist` state status is `DELIVERED`.
+
+`RemoveOrderNotification` has been emit when summit transaction `removeDeliveredCoffeeOrderList`.
 
 Congratulations!
 # coffee-shop
