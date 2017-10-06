@@ -9,6 +9,30 @@ rule Default {
     action: ALLOW
 }
 
+rule Customer {
+    description: "Allow Customer participants access to resources"
+    participant: "org.acme.mynetwork.Customer"
+    operation: ALL
+    resource: "org.acme.mynetwork.AddOrder"
+    action: ALLOW
+}
+
+rule Seller {
+    description: "Allow Customer participants access to resources"
+    participant: "org.acme.mynetwork.Seller"
+    operation: ALL
+    resource: "org.acme.mynetwork.*"
+    action: ALLOW
+}
+
+rule DeliveryMan {
+    description: "Allow Customer participants access to resources"
+    participant: "org.acme.mynetwork.DeliveryMan"
+    operation: ALL
+    resource: "org.acme.mynetwork.Delivered"
+    action: ALLOW
+}
+
 rule SystemACL {
   description:  "System ACL to permit all access"
   participant: "org.hyperledger.composer.system.Participant"
