@@ -19,7 +19,7 @@ This business network defines:
 **Enum**
 `OrderState`
 
-Coffee are owned by a Seller, and the value property on a CoffeeOrderlist can be modified by submitting a Order and Delivery Transaction. The Order and Delivery Transaction emits a OrderNotificationEvent that notifies applications of the old and new values for each modified CoffeeOrderlist Asset.
+Coffee are owned by a Seller, and the value property on a Order can be modified by submitting a AddOrder, Waitting, Done, Delivery and Delivered Transaction. All Transaction will emits a OrderNotificationEvent that notifies applications of the old and new values for each modified Order Asset.
 
 To test this Business Network Definition in the **Test** tab:
 
