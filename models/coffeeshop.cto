@@ -2,6 +2,19 @@
  * My Coffee shop network
  */
 namespace org.acme.mynetwork
+enum OrderState {
+  o ORDER
+  o WAIT
+  o DONE
+  o DELIVERY
+  o DELIVERED
+}
+
+concept Item {
+   o Double quantity
+  --> Coffee coffee
+}
+
 asset Coffee identified by coffeeName {
     o String coffeeName
     o Double price
@@ -9,16 +22,11 @@ asset Coffee identified by coffeeName {
     --> Seller seller
 }
 
-enum OrderState {
-  o ORDER
-  o DELIVERED
-}
-
-asset CoffeeOrderlist identified by listingId {
-  o String listingId
+asset Order identified by id {
+  o String id
   o OrderState state
-  o Order[] orders optional
-  --> Coffee coffee
+  o Item[] items
+  --> Customer customer
 }
 
 abstract participant User identified by email {
@@ -35,23 +43,38 @@ participant Seller extends User {
   o Double balance
 }
 
-transaction Order {
-  o Double quantity
-  --> CoffeeOrderlist coffeeOrderlist
-  --> Customer customer
+participant DeliveryMan extends User {
+}
+
+transaction AddOrder {
+   o String id
+   o Item[] items
+   --> Customer customer
+}
+
+transaction Waitting {
+  --> Order order
+}
+
+transaction Done {
+  --> Order order
 }
 
 transaction Delivery {
-  --> CoffeeOrderlist coffeeOrderlist
+  --> Order order
 }
 
-transaction removeDeliveredCoffeeOrderList {
+transaction Delivered {
+  --> Order order
+}
+
+transaction RemoveDeliveredCoffeeOrder {
 }
 
 event OrderNotification {
-    --> CoffeeOrderlist coffeeOrderlist
+    --> Order order
 }
 
 event RemoveOrderNotification {
-    --> CoffeeOrderlist coffeeOrderlist
+    --> Order order
 }

@@ -5,13 +5,13 @@
 This business network defines:
 
 **Participant**
-`Customer` `Seller`
+`Customer` `Seller` `DeliveryMan`
 
 **Asset**
-`Coffee` `CoffeeOrderlist`
+`Coffee` `Order`
 
 **Transaction**
-`Order` `Delivery` `removeDeliveredCoffeeOrderList`
+`AddOrder` `Waitting` `Done` `Delivery` `Delivered` `RemoveDeliveredCoffeeOrder`
 
 **Event**
 `OrderNotification` `RemoveOrderNotification`
@@ -45,6 +45,17 @@ Create a `Seller` participant:
   "lastName": "Snow"
 }
 ```
+Create a `DeliveryMan` participant:
+
+```
+{
+  "$class": "org.acme.mynetwork.DeliveryMan",
+  "balance": 100,
+  "email": "rogan_crack@gmail.com",
+  "firstName": "Rogan",
+  "lastName": "Crack"
+}
+```
 
 Create a `Coffee` asset:
 
@@ -57,25 +68,50 @@ Create a `Coffee` asset:
   "seller": "resource:org.acme.mynetwork.Seller#john_snow@gmail.com"
 }
 ```
-Create a `CoffeeOrderlist` asset:
-
-```
-{
-  "$class": "org.acme.mynetwork.CoffeeOrderlist",
-  "listingId": "listingId:0001",
-  "state": "ORDER",
-  "coffee": "resource:org.acme.mynetwork.Coffee#Mocha"
-}
-```
-
-Submit a `Order` transaction:
+Create a `Order` asset:
 
 ```
 {
   "$class": "org.acme.mynetwork.Order",
+  "id": "id:0001",
+  "state": "ORDER",
+  "items": [{
+  "$class": "org.acme.mynetwork.Item",
   "quantity": 10,
-  "coffeeOrderlist": "resource:org.acme.mynetwork.CoffeeOrderlist#listingId:0001",
+  "coffee": "resource:org.acme.mynetwork.Coffee#Mocha"
+  }],
   "customer": "resource:org.acme.mynetwork.Customer#anucha.21681@hotmail.com"
+}
+```
+
+Submit a `AddOrder` transaction:
+
+```
+{
+  "$class": "org.acme.mynetwork.AddOrder",
+  "id": "id:0001",
+  "items": [{
+  "$class": "org.acme.mynetwork.Item",
+  "quantity": 10,
+  "coffee": "resource:org.acme.mynetwork.Coffee#Mocha"
+  }],
+  "customer": "resource:org.acme.mynetwork.Customer#anucha.21681@hotmail.com"
+}
+```
+Submit a `Waitting` transaction:
+
+```
+{
+  "$class": "org.acme.mynetwork.Waitting",
+  "order": "resource:org.acme.mynetwork.Order#id:0001"
+}
+```
+Submit a `Done` transaction:
+
+```
+{
+  "$class": "org.acme.mynetwork.Delivery",
+  "order": "resource:org.acme.mynetwork.Order#id:0001"
 }
 ```
 Submit a `Delivery` transaction:
@@ -83,24 +119,32 @@ Submit a `Delivery` transaction:
 ```
 {
   "$class": "org.acme.mynetwork.Delivery",
-  "coffeeOrderlist": "resource:org.acme.mynetwork.CoffeeOrderlist#listingId:0001"
+  "order": "resource:org.acme.mynetwork.Order#id:0001"
 }
 ```
-Submit a `removeDeliveredCoffeeOrderList` transaction:
+Submit a `Delivered` transaction:
 
 ```
 {
-  "$class": "org.acme.mynetwork.removeDeliveredCoffeeOrderList"
+  "$class": "org.acme.mynetwork.Delivered",
+  "order": "resource:org.acme.mynetwork.Order#id:0001"
+}
+```
+Submit a `removeDeliveredCoffeeOrder` transaction:
+
+```
+{
+  "$class": "org.acme.mynetwork.removeDeliveredCoffeeOrder"
 }
 ```
 
-After submitting this transaction, you should now see the transaction in the Transaction Registry and that a `OrderNotification` has been emitted. As a result, the value of the `listingId:0001` should now be `new value` in the Asset Registry.
+After submitting this transaction, you should now see the transaction in the Transaction Registry and that a `OrderNotification` has been emitted. As a result, the value of the `id:0001` should now be `new value` in the Asset Registry.
 
-`removeDeliveredCoffeeOrderList` use to delete `CoffeeOrderlist` state status is DELIVERED.
+`removeDeliveredCoffeeOrder` use to delete `Order` state status is DELIVERED.
 
-`RemoveOrderNotification` has been emit when summit transaction `removeDeliveredCoffeeOrderList`.
+`RemoveOrderNotification` has been emit when summit transaction `removeDeliveredCoffeeOrder`.
 
-Enum `OrderState` -> ORDER, DELIVERED
+Enum `OrderState` -> ORDER, WAIT, DONE, DELIVERY, DELIVERED
 
 Congratulations!
 # coffee-shop

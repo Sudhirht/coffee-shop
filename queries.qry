@@ -1,29 +1,29 @@
 /**Queries for Coffee Shop network
 */
 
-query selectOrderCoffeeList {
-  description: "Select all order coffee list"
+query selectOrderCoffee {
+  description: "Select all order coffee"
   statement:
-      SELECT org.acme.mynetwork.CoffeeOrderlist
+      SELECT org.acme.mynetwork.Order
 }
 
-query selectOrderCoffeeListByCoffee {
-  description: "Select all order coffee list based on their coffee"
+query selectOrderCoffeeByCoffee {
+  description: "Select all order coffee based on their customer"
   statement:
-      SELECT org.acme.mynetwork.CoffeeOrderlist
-          WHERE (coffee==_$coffee)
+      SELECT org.acme.mynetwork.Order
+          WHERE (customer==_$customer)
 }
 
-query selectOrderCoffeeListByOwner {
-  description: "Select all order coffee list based on their seller"
+query selectOrderCoffeeByOwner {
+  description: "Select all order coffee based on their state"
   statement:
-      SELECT org.acme.mynetwork.CoffeeOrderlist
-          WHERE (coffee.seller == _$seller)
+      SELECT org.acme.mynetwork.Order
+          WHERE (state == _$state)
 }
 
-query selectCoffeeOrderListWithDelivered {
-  description: "Select order coffee list based on DELIVERED"
+query selectCoffeeOrderWithDelivered {
+  description: "Select order coffee based on DELIVERED"
   statement:
-      SELECT org.acme.mynetwork.CoffeeOrderlist
+      SELECT org.acme.mynetwork.Order
           WHERE (state == 'DELIVERED')
 }
